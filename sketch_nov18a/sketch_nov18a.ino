@@ -21,9 +21,11 @@ void loop()
 	//Superloop
 	while(true)
 	{
+		// Check voor seriele input
 		ReadSerial(settings);
 	}
 	
+	// Als het debugtijd is, wachten wij 10s
 	if(DEBUG)
 	{
 		delay(10);
@@ -39,6 +41,7 @@ void ReadSerial(Settings *settings)
 	// Read Serial
 	char serialReceived[3+CHARSFORINT] = "";
 	
+	// Check if there's data in the input buffer
 	if(Serial.peek() != -1)
 	{
 		Serial.readBytes(&serialReceived[0], 19);
@@ -72,19 +75,28 @@ void ReadSerial(Settings *settings)
 		// Execute
 		else if (serialReceived[0] == 'e')
 		{
-		
+			switch(serialReceived[1])
+			{
+				default:
+					Serial.println("Bad Input");
+					break;
+			}
 		}
 	}
 }
 
+// Returns the integer representation of a sequence of characters
 int SerialGetValue(char* inputArray, short offset)
 {
+	// Create an entry buffer
 	char nummerBuffer[4] = {0};
 	
+	// Add the character values to a sequential array so it can be converted
 	for(short i = 0; i != CHARSFORINT; i++)
 	{
 		nummerBuffer[i] = inputArray[i+offset];
 	}	
 	
+	// Return the integer value of the numberBuffer
 	return atoi(nummerBuffer);
 }
