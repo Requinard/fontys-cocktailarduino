@@ -24,12 +24,18 @@ void loop()
 	//Superloop
 	while(true)
 	{
-		char serialReceived[20] = "";
-		
-		if(Serial.peek())
-		{
-			Serial.readBytes(&serialReceived[0], 19);
-			Serial.println(serialReceived);
-		}
+		ReadSerial(settings);
+	}
+}
+
+void ReadSerial(Settings *settings)
+{
+	// Read Serial
+	char serialReceived[20] = "";
+	
+	if(Serial.peek())
+	{
+		Serial.readBytes(&serialReceived[0], 19);
+		Serial.println(serialReceived);
 	}
 }
