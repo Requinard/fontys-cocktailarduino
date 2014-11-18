@@ -1,8 +1,6 @@
 #include <SoftwareSerial.h>
-
-typedef struct Settings {
-	int boozeTime;
-};
+#define DEBUG true
+#include "main.h"
 
 void setup()
 {
@@ -20,11 +18,17 @@ void loop()
 {
 	//Initializeren van de instellingen voor het gebruik
 	Settings *settings = (Settings*)malloc(sizeof(Settings));
+	settings->boozeTime = 10;
 	
 	//Superloop
 	while(true)
 	{
 		ReadSerial(settings);
+	}
+	
+	if(DEBUG)
+	{
+		delay(10);
 	}
 }
 
@@ -33,9 +37,10 @@ void ReadSerial(Settings *settings)
 	// Read Serial
 	char serialReceived[20] = "";
 	
-	if(Serial.peek())
+	if(Serial.peek() != -1)
 	{
 		Serial.readBytes(&serialReceived[0], 19);
+		Serial.println(settings->boozeTime);
 		Serial.println(serialReceived);
 	}
 }
