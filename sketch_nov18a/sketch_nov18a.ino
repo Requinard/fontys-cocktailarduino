@@ -1,5 +1,3 @@
-#include <SoftwareSerial.h>
-#define DEBUG true
 #include "main.h"
 
 void setup()
@@ -39,7 +37,7 @@ void loop()
 void ReadSerial(Settings *settings)
 {
 	// Read Serial
-	char serialReceived[7] = "";
+	char serialReceived[3+CHARSFORINT] = "";
 	
 	if(Serial.peek() != -1)
 	{
@@ -83,7 +81,7 @@ int SerialGetValue(char* inputArray, short offset)
 {
 	char nummerBuffer[4] = {0};
 	
-	for(short i = 0; i != 4; i++)
+	for(short i = 0; i != CHARSFORINT; i++)
 	{
 		nummerBuffer[i] = inputArray[i+offset];
 	}	
