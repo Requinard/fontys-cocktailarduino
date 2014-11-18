@@ -14,9 +14,12 @@ void setup()
 
 void loop()
 {
+	Serial.println("Initializing");
 	//Initializeren van de instellingen voor het gebruik
 	Settings *settings = (Settings*)malloc(sizeof(Settings));
 	settings->boozeTime = 10;
+	
+	Serial.println("Starting loop");
 	
 	//Superloop
 	while(true)
@@ -24,11 +27,12 @@ void loop()
 		// Check voor seriele input
 		ReadSerial(settings);
 	}
-	
+	Serial.println(millis());
 	// Als het debugtijd is, wachten wij 10s
 	if(DEBUG)
 	{
 		delay(10);
+		
 	}
 }
 
@@ -97,6 +101,12 @@ int SerialGetValue(char* inputArray, short offset)
 		nummerBuffer[i] = inputArray[i+offset];
 	}	
 	
+	if(DEBUG)
+	{
+		Serial.println("Received the following input number");
+		Serial.println(nummerBuffer);
+	}
+		
 	// Return the integer value of the numberBuffer
 	return atoi(nummerBuffer);
 }
