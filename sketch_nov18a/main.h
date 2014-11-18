@@ -3,3 +3,4 @@ typedef struct Settings {
 };
 
 void ReadSerial(Settings*);
+int SerialGetValue(char*, short);

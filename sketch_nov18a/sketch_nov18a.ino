@@ -32,15 +32,61 @@ void loop()
 	}
 }
 
+// Read serial data
+// 0 byte indicates mode
+// 1 byte indicates destination
+// 2 - 6 indicates value
 void ReadSerial(Settings *settings)
 {
 	// Read Serial
-	char serialReceived[20] = "";
+	char serialReceived[7] = "";
 	
 	if(Serial.peek() != -1)
 	{
 		Serial.readBytes(&serialReceived[0], 19);
-		Serial.println(settings->boozeTime);
-		Serial.println(serialReceived);
+		
+		// Read
+		if(serialReceived[0] == 'r')
+		{
+			switch(serialReceived[1])
+			{
+				case '1':
+					Serial.println(settings->boozeTime);
+					break;
+				default:
+					Serial.println("Bad Input");
+					break;
+			}
+		}
+		// Write
+		else if (serialReceived[0] == 'w')
+		{
+			switch(serialReceived[1])
+			{
+				case '1':
+					settings->boozeTime = SerialGetValue(serialReceived, 2);
+					break;
+				default:
+					Serial.println("Bad Input");
+					break;
+			}
+		}
+		// Execute
+		else if (serialReceived[0] == 'e')
+		{
+		
+		}
 	}
+}
+
+int SerialGetValue(char* inputArray, short offset)
+{
+	char nummerBuffer[4] = {0};
+	
+	for(short i = 0; i != 4; i++)
+	{
+		nummerBuffer[i] = inputArray[i+offset];
+	}	
+	
+	return atoi(nummerBuffer);
 }
